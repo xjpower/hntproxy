@@ -55,6 +55,10 @@ get_os_info(){
     local lbit=$( getconf LONG_BIT )
     local host=$( hostname )
     local kern=$( uname -r )
+    local iprange='172.16.101'
+    local mypsk="hnthnt"
+    local username="hnt"
+    local password="hnthnt"
 
     echo "########## System Information ##########"
     echo 
@@ -222,10 +226,7 @@ preinstall_l2tp(){
         fi
     fi
 
-    local iprange='172.16.101'
-    local mypsk="hnthnt"
-    local username="hnt"
-    local password="hnthnt"
+
            
     echo
     echo "ServerIP:${IP}"
