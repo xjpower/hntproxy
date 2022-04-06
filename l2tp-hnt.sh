@@ -4,8 +4,8 @@ export PATH
 #=======================================================================#
 #   System Supported:  CentOS 6+ / Debian 7+ / Ubuntu 12+               #
 #   Description: L2TP VPN Auto Installer                                #
-#   Author: Teddysun <i@teddysun.com>                                   #
-#   Intro:  https://teddysun.com/448.html                               #
+#   Author: ZLQZH    <zlq@qq.com>                                       #
+#   Intro:  https://ipds.cc                                             #
 #=======================================================================#
 cur_dir=`pwd`
 
@@ -223,16 +223,16 @@ preinstall_l2tp(){
     fi
     echo
     echo "Please enter IP-Range:"
-    read -p "(Default Range: 192.168.18):" iprange
-    [ -z ${iprange} ] && iprange="192.168.18"
+    read -p "(Default Range: 172.16.101):" iprange
+    [ -z ${iprange} ] && iprange="172.16.101"
 
     echo "Please enter PSK:"
-    read -p "(Default PSK: teddysun.com):" mypsk
-    [ -z ${mypsk} ] && mypsk="teddysun.com"
+    read -p "(Default PSK: xjpower):" mypsk
+    [ -z ${mypsk} ] && mypsk="xjpower"
 
     echo "Please enter Username:"
-    read -p "(Default Username: teddysun):" username
-    [ -z ${username} ] && username="teddysun"
+    read -p "(Default Username: hnt):" username
+    [ -z ${username} ] && username="hnt"
 
     password=`rand`
     echo "Please enter ${username}'s password:"
@@ -407,7 +407,7 @@ EOF
     cat > /etc/ppp/chap-secrets<<EOF
 # Secrets for authentication using CHAP
 # client    server    secret    IP addresses
-${username}    l2tpd    ${password}       *
+${username}    l2tpd    ${password}       172.16.101.201
 EOF
 
 }
@@ -471,6 +471,7 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination 172.16.101.201
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
 COMMIT
 EOF
@@ -521,6 +522,7 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
+-A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination 172.16.101.201
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
 COMMIT
 EOF
@@ -654,8 +656,8 @@ finally(){
     echo "###############################################################"
     echo "# L2TP VPN Auto Installer                                     #"
     echo "# System Supported: CentOS 6+ / Debian 7+ / Ubuntu 12+        #"
-    echo "# Intro: https://teddysun.com/448.html                        #"
-    echo "# Author: Teddysun <i@teddysun.com>                           #"
+    echo "# Intro: https://ipds.cc                                      #"
+    echo "# Author: ZLQZH <zlq@qq.com>                                  #"
     echo "###############################################################"
     echo "If there is no [FAILED] above, you can connect to your L2TP "
     echo "VPN Server with the default Username/Password is below:"
@@ -683,8 +685,8 @@ l2tp(){
     echo "###############################################################"
     echo "# L2TP VPN Auto Installer                                     #"
     echo "# System Supported: CentOS 6+ / Debian 7+ / Ubuntu 12+        #"
-    echo "# Intro: https://teddysun.com/448.html                        #"
-    echo "# Author: Teddysun <i@teddysun.com>                           #"
+    echo "# Intro: https://ipds.cc                                      #"
+    echo "# Author: ZLQZH <zlq@qq.com>                                  #"
     echo "###############################################################"
     echo
     rootness
