@@ -223,15 +223,17 @@ preinstall_l2tp(){
     fi
 
     local iprange='172.16.101'
-    local mypsk='hnthnt'
-    local username='hnt'
-    local passwordn='hnthnt'
+    local mypsk="hnthnt"
+    local username="hnt"
+    local password="hnthnt"
            
     echo
     echo "ServerIP:${IP}"
     echo "Server Local IP:${iprange}.1"
     echo "Client Remote IP Range:${iprange}.2-${iprange}.254"
     echo "PSK:${mypsk}"
+    echo "username:${username}"
+    echo "password:${password}"
     echo
     echo "Press any key to start... or press Ctrl + C to cancel."
     char=`get_char`
