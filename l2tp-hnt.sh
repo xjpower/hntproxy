@@ -222,10 +222,10 @@ preinstall_l2tp(){
         fi
     fi
 
-    ${iprange} = "172.16.101"
-    ${mypsk} = "hnthnt"
-    ${username} = "hnt"
-    ${password} = "hnthnt"
+    iprange=172.16.101
+    mypsk =hnthnt
+    username=hnt
+    password=hnthnt
     
     echo
     echo "ServerIP:${IP}"
