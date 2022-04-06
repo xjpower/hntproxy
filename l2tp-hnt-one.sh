@@ -222,10 +222,10 @@ preinstall_l2tp(){
         fi
     fi
 
-    local iprange=172.16.101
-    local mypsk=hnthnt
-    local username=hnt
-    local passwordn=hnthnt
+    local iprange='172.16.101'
+    local mypsk='hnthnt'
+    local username='hnt'
+    local passwordn='hnthnt'
            
     echo
     echo "ServerIP:${IP}"
