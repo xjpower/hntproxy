@@ -235,9 +235,10 @@ preinstall_l2tp(){
     read -p "(Default Username: hnt):" username
     [ -z ${username} ] && username="hnt"
     
+    password=`rand`
     echo "Please enter ${username}'s password:"
-    read -p "(Default Password: 197888):" password
-    [ ! -z ${password} ] && password="197888"
+    read -p "(Default Password: ${password}):" tmppassword
+    [ ! -z ${tmppassword} ] && password=${tmppassword}
     
     echo
     echo "ServerIP:${IP}"
@@ -407,7 +408,7 @@ EOF
     cat > /etc/ppp/chap-secrets<<EOF
 # Secrets for authentication using CHAP
 # client    server    secret    IP addresses
-${username}    l2tpd    ${password}       172.16.101.201
+${username}    l2tpd    ${password}       ${iprange}.201
 EOF
 
 }
@@ -471,7 +472,7 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination 172.16.101.201
+-A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.201
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
 COMMIT
 EOF
@@ -479,6 +480,7 @@ EOF
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
+            iptables -t nat -A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.201
             iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
             /etc/init.d/iptables save
         fi
@@ -522,7 +524,7 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination 172.16.101.201
+-A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.201
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
 COMMIT
 EOF
@@ -530,6 +532,7 @@ EOF
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
+            iptables -t nat -A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.201
             iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
             /sbin/iptables-save > /etc/iptables.rules
         fi
