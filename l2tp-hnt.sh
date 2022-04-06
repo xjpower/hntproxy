@@ -221,24 +221,11 @@ preinstall_l2tp(){
             exit 0
         fi
     fi
-    echo
-    echo "Please enter IP-Range:"
-    read -p "(Default Range: 172.16.101):" iprange
-    [ -z ${iprange} ] && iprange="172.16.101"
 
-    echo "Please enter PSK:"
-    read -p "(Default PSK: xjpower):" mypsk
-    [ -z ${mypsk} ] && mypsk="xjpower"
-
-    echo "Please enter Username:"
-    read -p "(Default Username: hnt):" username
-    [ -z ${username} ] && username="hnt"
-
-    password=`rand`
-    echo "Please enter ${username}'s password:"
-    read -p "(Default Password: ${password}):" tmppassword
-    [ ! -z ${tmppassword} ] && password=${tmppassword}
-
+    ${iprange} == "172.16.101"
+    ${mypsk} == "hnthnt"
+    ${username} == "hnt"
+    ${password} == "hnthnt"
     echo
     echo "ServerIP:${IP}"
     echo "Server Local IP:${iprange}.1"
