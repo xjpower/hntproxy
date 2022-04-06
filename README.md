@@ -14,7 +14,10 @@ chmod +x l2tp-hnt.sh
 
 ./l2tp-hnt.sh
 
-一键自动
+
+
+
+一键自动有问题未修复 禁用！
 
 wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/l2tp-hnt-one.sh
 
