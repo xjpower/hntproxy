@@ -235,9 +235,9 @@ preinstall_l2tp(){
     read -p "(Default Username: hnt):" username
     [ -z ${username} ] && username="hnt"
     
-    echo "Please enter Userip:"
-    read -p "(Default Username: 101):" userip
-    [ -z ${userip} ] && username="101"
+    echo "Please enter userip:"
+    read -p "(Default userip: 101):" userip
+    [ -z ${userip} ] && userip="101"
     
     password=`rand`
     echo "Please enter ${username}'s password:"
