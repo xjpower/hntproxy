@@ -6,7 +6,7 @@ HNT适用L2TP 代理一键搭建同时开通端口44158转发
 
 VPS 服务器系统版本为 UBUNTU16.04
 
-一键安转有可选项版本（推荐）：
+一键安装有可选项版本（推荐）：
 
 wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/l2tp-hnt.sh
 
