@@ -17,6 +17,8 @@ chmod +x l2tp-hnt.sh
 
 阿里云专用
 
+sudo -i
+
 apt update
 
 apt-get install gawk
