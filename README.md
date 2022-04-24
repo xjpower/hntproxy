@@ -14,6 +14,14 @@ chmod +x l2tp-hnt.sh
 
 ./l2tp-hnt.sh
 
+阿里云专用
+
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-l2tp-hnt.sh
+
+chmod +x aliyun-l2tp-hnt.sh
+
+./aliyun-l2tp-hnt.sh
+
 
 
 
