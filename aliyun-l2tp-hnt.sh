@@ -40,8 +40,9 @@ get_opsy(){
 }
 
 get_os_info(){
-    IP=$( ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'  )
-
+    IP=$( ip addr | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | egrep -v "^192\.168|^172\.1[6-9]\.|^172\.2[0-9]\.|^172\.3[0-2]\.|^10\.|^127\.|^255\.|^0\." | head -n 1 )
+    [ -z ${IP} ] && IP=$( wget -qO- -t1 -T2 ipv4.icanhazip.com )
+    NP=$( ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}'  )
     local cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
     local cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
     local freq=$( awk -F: '/cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo | sed 's/^[ \t]*//;s/[ \t]*$//' )
@@ -69,7 +70,7 @@ get_os_info(){
     echo "Kernel               : ${kern}"
     echo "Hostname             : ${host}"
     echo "IPv4 address         : ${IP}"
-    echo 
+    echo "net IPv4 address     ：${NP}"
     echo "########################################"
 }
 
@@ -248,7 +249,7 @@ preinstall_l2tp(){
     echo "Server Local IP:${iprange}.1"
     echo "Client Remote IP Range:${iprange}.2-${iprange}.254"
     echo "PSK:${mypsk}"
-    echo
+    echo "net IPv4 address:${NP}"
     echo "Press any key to start... or press Ctrl + C to cancel."
     char=`get_char`
 
@@ -475,16 +476,16 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
--A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
+-A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
+-A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
         else
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
-            iptables -t nat -A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
-            iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
+            iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
+            iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
             /etc/init.d/iptables save
         fi
 
@@ -527,16 +528,16 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
--A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
+-A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
+-A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
         else
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
-            iptables -t nat -A PREROUTING -d ${IP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
-            iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${IP}
+            iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
+            iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
             /sbin/iptables-save > /etc/iptables.rules
         fi
 
