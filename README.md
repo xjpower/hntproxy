@@ -14,7 +14,12 @@ chmod +x l2tp-hnt.sh
 
 ./l2tp-hnt.sh
 
+
 阿里云专用
+
+apt update
+
+apt-get install gawk
 
 wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-l2tp-hnt.sh
 
