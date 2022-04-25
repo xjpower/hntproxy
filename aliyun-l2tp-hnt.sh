@@ -361,7 +361,7 @@ conn l2tp-psk-nonat
     type=transport
     left=%defaultroute
     leftid=${IP}
-    leftprotoport=17/88
+    leftprotoport=17/1701
     right=%any
     rightprotoport=17/%any
     dpddelay=40
@@ -376,7 +376,7 @@ EOF
 
     cat > /etc/xl2tpd/xl2tpd.conf<<EOF
 [global]
-port = 88
+port = 1701
 
 [lns default]
 ip range = ${iprange}.2-${iprange}.254
@@ -468,7 +468,7 @@ EOF
 -A INPUT -p icmp -j ACCEPT
 -A INPUT -i lo -j ACCEPT
 -A INPUT -p tcp --dport 22 -j ACCEPT
--A INPUT -p udp -m multiport --dports 500,4500,88 -j ACCEPT
+-A INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
 -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -s ${iprange}.0/24  -j ACCEPT
 COMMIT
@@ -481,7 +481,7 @@ COMMIT
 COMMIT
 EOF
         else
-            iptables -I INPUT -p udp -m multiport --dports 500,4500,88 -j ACCEPT
+            iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
             iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
@@ -520,7 +520,7 @@ EOF
 -A INPUT -p icmp -j ACCEPT
 -A INPUT -i lo -j ACCEPT
 -A INPUT -p tcp --dport 22 -j ACCEPT
--A INPUT -p udp -m multiport --dports 500,4500,88 -j ACCEPT
+-A INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
 -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 -A FORWARD -s ${iprange}.0/24  -j ACCEPT
 COMMIT
@@ -533,7 +533,7 @@ COMMIT
 COMMIT
 EOF
         else
-            iptables -I INPUT -p udp -m multiport --dports 500,4500,88 -j ACCEPT
+            iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
             iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 44158 -j DNAT --to-destination ${iprange}.${userip}
@@ -601,7 +601,7 @@ yum_install(){
   <short>xl2tpd</short>
   <description>L2TP IPSec</description>
   <port protocol="udp" port="4500"/>
-  <port protocol="udp" port="88"/>
+  <port protocol="udp" port="1701"/>
 </service>
 EOF
     chmod 640 /etc/firewalld/services/xl2tpd.xml
@@ -634,7 +634,7 @@ EOF
             firewall-cmd --permanent --add-masquerade
             firewall-cmd --reload
         else
-            echo "Failed to start firewalld. please enable udp port 500 4500 88 manually if necessary."
+            echo "Failed to start firewalld. please enable udp port 500 4500 1701 manually if necessary."
         fi
     fi
 
