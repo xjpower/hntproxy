@@ -680,7 +680,7 @@ finally(){
     echo "l2tp -l (List all users)"
     echo "l2tp -m (Modify a user password)"
     echo
-    echo "Welcome to visit our website: https://teddysun.com/448.html"
+    echo "Welcome to visit our website: https://ipds.cc/"
     echo "Enjoy it!"
     echo
 }
