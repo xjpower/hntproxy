@@ -39,3 +39,19 @@ wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/mas
 chmod +x l2tp-hnt-one.sh
 
 ./l2tp-hnt-one.sh
+
+
+
+ubuntu 多网卡设置
+
+auto eth0:0
+iface eth0:0 inet static
+address 111.111.111.112
+netmask 255.255.255.192
+gateway 111.111.111.110
+
+auto eth0:1
+iface eth0:1 inet static
+address 111.111.111.113
+netmask 255.255.255.192
+gateway 111.111.111.110
