@@ -476,8 +476,9 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${NP}/32 -p tcp \! --dport 22 -j DNAT --to-destination ${iprange}.${userip}
--A PREROUTING -d ${NP}/32 -p udp \! --dport 1701 -j DNAT --to-destination ${iprange}.${userip}
+-A PREROUTING -t nat -d  ${NP} -p udp  -m multiport --dport 1701,500,4500 -j RETURN
+-A PREROUTING -t nat -d ${NP} -p tcp --dport 22 -j RETURN
+-A PREROUTING -t nat -d  ${NP} -j DNAT --to-destination ${iprange}.${userip}
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
