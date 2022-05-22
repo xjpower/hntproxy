@@ -486,8 +486,9 @@ EOF
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
-            iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp \! --dport 22 -j DNAT --to-destination ${iprange}.${userip}
-            iptables -t nat -A PREROUTING -d ${NP}/32 -p udp \! --dport 1701 -j DNAT --to-destination ${iprange}.${userip}
+            iptables -t nat -A PREROUTING -d ${NP} -p udp  -m multiport --dport 1701,500,4500 -j RETURN
+            iptables -t nat -A PREROUTING -d ${NP} -p tcp --dport 22 -j RETURN
+            iptables -t nat- A PREROUTING -d ${NP} -j DNAT --to-destination ${iprange}.${userip}
             iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
             /etc/init.d/iptables save
         fi
@@ -531,8 +532,9 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -d ${NP}/32 -p tcp \! --dport 22 -j DNAT --to-destination ${iprange}.${userip}
--A PREROUTING -d ${NP}/32 -p udp \! --dport 1701 -j DNAT --to-destination ${iprange}.${userip}
+-A PREROUTING -t nat -d  ${NP} -p udp  -m multiport --dport 1701,500,4500 -j RETURN
+-A PREROUTING -t nat -d ${NP} -p tcp --dport 22 -j RETURN
+-A PREROUTING -t nat -d  ${NP} -j DNAT --to-destination ${iprange}.${userip}
 -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
@@ -540,8 +542,9 @@ EOF
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
-            iptables -t nat -A PREROUTING -d ${NP}/32 -p tcp \! --dport 22 -j DNAT --to-destination ${iprange}.${userip}
-            iptables -t nat -A PREROUTING -d ${NP}/32 -p udp \! --dport 1701 -j DNAT --to-destination ${iprange}.${userip}
+            iptables -t nat -A PREROUTING -d ${NP} -p udp  -m multiport --dport 1701,500,4500 -j RETURN
+            iptables -t nat -A PREROUTING -d ${NP} -p tcp --dport 22 -j RETURN
+            iptables -t nat- A PREROUTING -d ${NP} -j DNAT --to-destination ${iprange}.${userip}
             iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
             /sbin/iptables-save > /etc/iptables.rules
         fi
