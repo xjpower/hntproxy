@@ -476,20 +476,20 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -t nat -d ${NP}/32 -p udp -m multiport --dport 1701,500,4500 -j RETURN
--A PREROUTING -t nat -d ${NP}/32 -p tcp --dport 22 -j RETURN
--A PREROUTING -t nat -d ${NP}/32 -j DNAT --to-destination ${iprange}.${userip}
--A POSTROUTING -t nat -s ${iprange}.0/24 -j SNAT --to-source ${NP}
+-A PREROUTING -d ${NP}/32 -p udp -m multiport --dports 1701,500,4500 -j RETURN
+-A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 22 -j RETURN
+-A PREROUTING -d ${NP}/32 -j DNAT --to-destination ${iprange}.${userip}
+-A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
         else
             iptables -I INPUT -p udp -m multiport --dports 500,4500,1701 -j ACCEPT
             iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
             iptables -I FORWARD -s ${iprange}.0/24  -j ACCEPT
-            iptables -A PREROUTING -t nat -d ${NP}/32 -p udp -m multiport --dport 1701,500,4500 -j RETURN
+            iptables -A PREROUTING -t nat -d ${NP}/32 -p udp -m multiport --dports 1701,500,4500 -j RETURN
             iptables -A PREROUTING -t nat -d ${NP}/32 -p tcp --dport 22 -j RETURN
             iptables -A PREROUTING -t nat -d ${NP}/32 -j DNAT --to-destination ${iprange}.${userip}
-            iptables -t nat -A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
+            iptables -A POSTROUTING -t nat -s ${iprange}.0/24 -j SNAT --to-source ${NP}
             /etc/init.d/iptables save
         fi
 
@@ -532,10 +532,10 @@ COMMIT
 :PREROUTING ACCEPT [0:0]
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
--A PREROUTING -t nat -d ${NP}/32 -p udp -m multiport --dport 1701,500,4500 -j RETURN
--A PREROUTING -t nat -d ${NP}/32 -p tcp --dport 22 -j RETURN
--A PREROUTING -t nat -d ${NP}/32 -j DNAT --to-destination ${iprange}.${userip}
--A POSTROUTING -t nat -s ${iprange}.0/24 -j SNAT --to-source ${NP}
+-A PREROUTING -d ${NP}/32 -p udp -m multiport --dports 1701,500,4500 -j RETURN
+-A PREROUTING -d ${NP}/32 -p tcp -m tcp --dport 22 -j RETURN
+-A PREROUTING -d ${NP}/32 -j DNAT --to-destination ${iprange}.${userip}
+-A POSTROUTING -s ${iprange}.0/24 -j SNAT --to-source ${NP}
 COMMIT
 EOF
         else
