@@ -34,7 +34,7 @@ chmod +x aliyun-l2tp-hnt.sh
 
 
 
-阿里云专用
+阿里云CENTOS专用
 
 sudo -i
 
