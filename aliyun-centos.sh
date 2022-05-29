@@ -189,6 +189,7 @@ if check_sys packageManager apt; then
 	compile_install
 
 }
+
 config_install(){
 
     cat > /etc/ipsec.conf<<EOF
