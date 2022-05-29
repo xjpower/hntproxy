@@ -32,14 +32,17 @@ chmod +x aliyun-l2tp-hnt.sh
 
 
 
-一键自动静默安转有问题未修复 禁用！
 
-wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/l2tp-hnt-one.sh
 
-chmod +x l2tp-hnt-one.sh
+阿里云专用
 
-./l2tp-hnt-one.sh
+sudo -i
 
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-centos.sh
+
+chmod +x aliyun-centos.sh
+
+./aliyun-centost.sh
 
 
 ubuntu 多网卡设置
