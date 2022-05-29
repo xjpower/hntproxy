@@ -42,7 +42,7 @@ wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/mas
 
 chmod +x aliyun-centos.sh
 
-./aliyun-centost.sh
+./aliyun-centos.sh
 
 
 ubuntu 多网卡设置
