@@ -187,7 +187,6 @@ if check_sys packageManager apt; then
         apt-get -y --no-install-recommends install xmlto
         apt-get -y install xl2tpd
 	compile_install
-
 }
 
 config_install(){
