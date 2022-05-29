@@ -135,16 +135,59 @@ preinstall_l2tp(){
 install_l2tp(){
 
     mknod /dev/random c 1 9
+	echo "Adding the EPEL repository..."
 
+if check_sys packageManager apt; then
+        apt-get -y update
 
-        echo "Adding the EPEL repository..."
-        yum -y install epel-release yum-utils
-        [ ! -f /etc/yum.repos.d/epel.repo ] && echo "Install EPEL repository failed, please check it." && exit 1
-        yum-config-manager --enable epel
-        echo "Adding the EPEL repository complete..."
-            yum -y install ppp libreswan xl2tpd  iptables-services iptables-devel pptpd
-            yum_install
+        if debianversion 7; then
+            if is_64bit; then
+                local libnspr4_filename1="libnspr4_4.10.7-1_amd64.deb"
+                local libnspr4_filename2="libnspr4-0d_4.10.7-1_amd64.deb"
+                local libnspr4_filename3="libnspr4-dev_4.10.7-1_amd64.deb"
+                local libnspr4_filename4="libnspr4-dbg_4.10.7-1_amd64.deb"
+                local libnss3_filename1="libnss3_3.17.2-1.1_amd64.deb"
+                local libnss3_filename2="libnss3-1d_3.17.2-1.1_amd64.deb"
+                local libnss3_filename3="libnss3-tools_3.17.2-1.1_amd64.deb"
+                local libnss3_filename4="libnss3-dev_3.17.2-1.1_amd64.deb"
+                local libnss3_filename5="libnss3-dbg_3.17.2-1.1_amd64.deb"
+            else
+                local libnspr4_filename1="libnspr4_4.10.7-1_i386.deb"
+                local libnspr4_filename2="libnspr4-0d_4.10.7-1_i386.deb"
+                local libnspr4_filename3="libnspr4-dev_4.10.7-1_i386.deb"
+                local libnspr4_filename4="libnspr4-dbg_4.10.7-1_i386.deb"
+                local libnss3_filename1="libnss3_3.17.2-1.1_i386.deb"
+                local libnss3_filename2="libnss3-1d_3.17.2-1.1_i386.deb"
+                local libnss3_filename3="libnss3-tools_3.17.2-1.1_i386.deb"
+                local libnss3_filename4="libnss3-dev_3.17.2-1.1_i386.deb"
+                local libnss3_filename5="libnss3-dbg_3.17.2-1.1_i386.deb"
+            fi
+            rm -rf ${cur_dir}/l2tp
+            mkdir -p ${cur_dir}/l2tp
+            cd ${cur_dir}/l2tp
+            download_file "${libnspr4_filename1}"
+            download_file "${libnspr4_filename2}"
+            download_file "${libnspr4_filename3}"
+            download_file "${libnspr4_filename4}"
+            download_file "${libnss3_filename1}"
+            download_file "${libnss3_filename2}"
+            download_file "${libnss3_filename3}"
+            download_file "${libnss3_filename4}"
+            download_file "${libnss3_filename5}"
+            dpkg -i ${libnspr4_filename1} ${libnspr4_filename2} ${libnspr4_filename3} ${libnspr4_filename4}
+            dpkg -i ${libnss3_filename1} ${libnss3_filename2} ${libnss3_filename3} ${libnss3_filename4} ${libnss3_filename5}
 
+            apt-get -y install wget gcc ppp flex bison make pkg-config libpam0g-dev libcap-ng-dev iptables \
+                               libcap-ng-utils libunbound-dev libevent-dev libcurl4-nss-dev libsystemd-daemon-dev
+        else
+            apt-get -y install wget gcc ppp flex bison make python libnss3-dev libnss3-tools libselinux-dev iptables \
+                               libnspr4-dev pkg-config libpam0g-dev libcap-ng-dev libcap-ng-utils libunbound-dev \
+                               libevent-dev libcurl4-nss-dev libsystemd-dev
+        fi
+        apt-get -y --no-install-recommends install xmlto
+        apt-get -y install xl2tpd
+
+        compile_install
 }
 config_install(){
 
@@ -232,7 +275,7 @@ EOF
 
 
 
-yum_install(){
+compile_install(){
 
     config_install
 
@@ -284,7 +327,7 @@ systemctl start iptables
 # systemctl enable pptpd
 # systemctl start pptpd
 
-cat > /etc/sysconfig/iptables <<EOF
+cat >/etc/iptables.rules <<EOF
 # Added by L2TP VPN script
 *filter
 :INPUT ACCEPT [0:0]
