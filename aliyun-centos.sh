@@ -173,11 +173,11 @@ mknod /dev/random c 1 9
 	dpkg -i ${libnspr4_filename1} ${libnspr4_filename2} ${libnspr4_filename3} ${libnspr4_filename4}
 	dpkg -i ${libnss3_filename1} ${libnss3_filename2} ${libnss3_filename3} ${libnss3_filename4} ${libnss3_filename5}
 	apt-get -y install wget gcc ppp flex bison make pkg-config libpam0g-dev libcap-ng-dev iptables \
-	libcap-ng-utils libunbound-dev libevent-dev libcurl4-nss-dev libsystemd-daemon-dev
+	libcap-ng-utils libunbound-dev libevent-dev libcurl4-nss-dev libsystemd-daemon-dev strongswan strongswan-plugin-xauth-generic
 	else
 	apt-get -y install wget gcc ppp flex bison make python libnss3-dev libnss3-tools libselinux-dev iptables \
 	libnspr4-dev pkg-config libpam0g-dev libcap-ng-dev libcap-ng-utils libunbound-dev \
-	libevent-dev libcurl4-nss-dev libsystemd-dev
+	libevent-dev libcurl4-nss-dev libsystemd-dev strongswan strongswan-plugin-xauth-generic
 	fi
 	apt-get -y --no-install-recommends install xmlto
 	apt-get -y install xl2tpd
