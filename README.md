@@ -28,9 +28,18 @@ wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/mas
 chmod +x aliyun-l2tp-hnt.sh
 
 ./aliyun-l2tp-hnt.sh
+阿里云测试
+sudo -i
 
+apt update
 
+apt-get install gawk
 
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-hnt-auto.sh
+
+chmod +x aliyun-hnt-auto.sh
+
+./aliyun-hnt-auto.sh
 
 
 
