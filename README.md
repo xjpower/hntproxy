@@ -38,11 +38,11 @@ chmod +x aliyun-l2tp-hnt.sh
 
 sudo -i
 
-wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-centos.sh
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyuncentos.sh
 
-chmod +x aliyun-centos.sh
+chmod +x aliyuncentos.sh
 
-./aliyun-centos.sh
+./aliyuncentos.sh
 
 
 ubuntu 多网卡设置
