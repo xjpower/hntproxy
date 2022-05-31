@@ -124,8 +124,6 @@ preinstall_l2tp(){
     echo "PSK:${mypsk}"
     echo "net IPv4 address:${NP}"
     echo "Press any key to start... or press Ctrl + C to cancel."
-    
-
 }
 
 install_l2tp(){
