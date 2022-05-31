@@ -53,6 +53,19 @@ chmod +x aliyuncentos.sh
 
 ./aliyuncentos.sh
 
+阿里云一键
+sudo -i
+
+apt update
+
+apt-get install gawk
+
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/aliyun-hnt-auto.sh
+
+chmod +x aliyun-hnt-auto.sh
+
+./aliyun-hnt-auto.sh
+
 
 ubuntu 多网卡设置
 
