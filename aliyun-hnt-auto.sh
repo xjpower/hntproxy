@@ -124,16 +124,13 @@ preinstall_l2tp(){
     echo "PSK:${mypsk}"
     echo "net IPv4 address:${NP}"
     echo "Press any key to start... or press Ctrl + C to cancel."
-    char=`get_char`
+    
 
 }
 
 install_l2tp(){
 
     mknod /dev/random c 1 9
-
-    if check_sys packageManager apt; then
-        apt-get -y update
 
         if debianversion 7; then
             if is_64bit; then
