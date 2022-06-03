@@ -28,7 +28,9 @@ wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/mas
 chmod +x aliyun-l2tp-hnt.sh
 
 ./aliyun-l2tp-hnt.sh
+
 阿里云测试
+
 sudo -i
 
 apt update
@@ -54,6 +56,7 @@ chmod +x aliyuncentos.sh
 ./aliyuncentos.sh
 
 阿里云一键
+
 sudo -i
 
 apt update
