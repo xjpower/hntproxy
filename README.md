@@ -83,3 +83,18 @@ iface eth0:1 inet static
 address 111.111.111.113
 netmask 255.255.255.192
 gateway 111.111.111.110
+
+
+PI转发
+
+sudo -i
+
+apt update
+
+apt-get install gawk
+
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/l2tp-pi.sh
+
+chmod +x l2tp-pi.sh
+
+./l2tp-pi.sh
