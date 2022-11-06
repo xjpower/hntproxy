@@ -9,10 +9,19 @@ export PATH
 #=======================================================================#
 cur_dir=`pwd`
 
+download_root_url="https://dl.lamp.sh/files"
+
 rootness(){
     if [[ $EUID -ne 0 ]]; then
        echo "Error:This script must be run as root!" 1>&2
        exit 1
+    fi
+}
+
+tunavailable(){
+    if [[ ! -e /dev/net/tun ]]; then
+        echo "Error:TUN/TAP is not available!" 1>&2
+        exit 1
     fi
 }
 
@@ -124,6 +133,18 @@ is_64bit(){
         return 0
     else
         return 1
+    fi
+}
+
+download_file(){
+    if [ -s ${1} ]; then
+        echo "$1 [found]"
+    else
+        echo "$1 not found!!!download now..."
+        if ! wget -c -t3 -T60 ${download_root_url}/${1}; then
+            echo "Failed to download $1, please download it to ${cur_dir} directory manually and try again."
+            exit 1
+        fi
     fi
 }
 
@@ -391,13 +412,7 @@ EOF
 
 }
 
-   /usr/local/sbin/ipsec --version >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo "${libreswan_filename} install failed."
-        exit 1
-    fi
-
-    config_install
+   config_install
 
     cp -pf /etc/sysctl.conf /etc/sysctl.conf.bak
 
@@ -653,6 +668,7 @@ l2tp(){
     echo "###############################################################"
     echo
     rootness
+    tunavailable
     disable_selinux
     version_check
     get_os_info
