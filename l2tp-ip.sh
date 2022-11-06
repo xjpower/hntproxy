@@ -9,7 +9,6 @@ export PATH
 #=======================================================================#
 cur_dir=`pwd`
 
-
 rootness(){
     if [[ $EUID -ne 0 ]]; then
        echo "Error:This script must be run as root!" 1>&2
@@ -125,18 +124,6 @@ is_64bit(){
         return 0
     else
         return 1
-    fi
-}
-
-download_file(){
-    if [ -s ${1} ]; then
-        echo "$1 [found]"
-    else
-        echo "$1 not found!!!download now..."
-        if ! wget -c -t3 -T60 ${download_root_url}/${1}; then
-            echo "Failed to download $1, please download it to ${cur_dir} directory manually and try again."
-            exit 1
-        fi
     fi
 }
 
