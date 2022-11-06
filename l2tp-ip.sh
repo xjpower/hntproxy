@@ -19,13 +19,6 @@ rootness(){
     fi
 }
 
-tunavailable(){
-    if [[ ! -e /dev/net/tun ]]; then
-        echo "Error:TUN/TAP is not available!" 1>&2
-        exit 1
-    fi
-}
-
 disable_selinux(){
 if [ -s /etc/selinux/config ] && grep 'SELINUX=enforcing' /etc/selinux/config; then
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
@@ -692,7 +685,6 @@ l2tp(){
     echo "###############################################################"
     echo
     rootness
-    tunavailable
     disable_selinux
     version_check
     get_os_info
