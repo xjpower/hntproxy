@@ -98,3 +98,20 @@ wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/mas
 chmod +x l2tp-pi.sh
 
 ./l2tp-pi.sh
+
+
+Socks5转l2tp
+
+sudo -i
+
+apt update
+
+apt-get install -y gawk dos2unix
+
+wget --no-check-certificate https://raw.githubusercontent.com/zlqzh/hntproxy/master/l2tp-pi.sh
+
+dos2unix l2tp-ip.sh
+
+chmod +x l2tp-ip.sh
+
+./l2tp-ip.sh
