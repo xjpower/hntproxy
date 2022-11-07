@@ -9,6 +9,7 @@ export PATH
 #=======================================================================#
 cur_dir=`pwd`
 
+libreswan_filename="libreswan-3.27"
 download_root_url="https://dl.lamp.sh/files"
 
 rootness(){
@@ -412,7 +413,30 @@ EOF
 
 }
 
-   config_install
+compile_install(){
+
+    rm -rf ${cur_dir}/l2tp
+    mkdir -p ${cur_dir}/l2tp
+    cd ${cur_dir}/l2tp
+    download_file "${libreswan_filename}.tar.gz"
+    tar -zxf ${libreswan_filename}.tar.gz
+
+    cd ${cur_dir}/l2tp/${libreswan_filename}
+        cat > Makefile.inc.local <<'EOF'
+WERROR_CFLAGS =
+USE_DNSSEC = false
+USE_DH31 = false
+USE_GLIBC_KERN_FLIP_HEADERS = true
+EOF
+    make programs && make install
+
+    /usr/local/sbin/ipsec --version >/dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "${libreswan_filename} install failed."
+        exit 1
+    fi
+
+    config_install
 
     cp -pf /etc/sysctl.conf /etc/sysctl.conf.bak
 
